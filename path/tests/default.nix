@@ -1,5 +1,5 @@
 {
-  nixpkgs ? ../../..,
+  nixpkgs ? <nixpkgs>,
   system ? builtins.currentSystem,
   pkgs ? import nixpkgs {
     config = {};
