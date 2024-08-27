@@ -1,4 +1,13 @@
-# Nixpkgs lib
+# Standalone Lib
+
+This repository is largely taken from nixpkgs/lib. This library is meant to serve as the basis
+of a poly-repo nixpkgs fork or for standalone use in a flake which doesn't need all of nixpkgs.
+
+Noteable exceptions from `nixpkgs/lib`:
+- `systems/` was removed as it included information about system platforms which are not relevant to nix utilities.
+- Contributing instructions no longer include usage of "lib.", as the repo now fixates on these functions.
+
+# Nixpkgs lib (original readme)
 
 This directory contains the implementation, documentation and tests for the Nixpkgs `lib` library.
 
@@ -145,15 +154,13 @@ fileset/tests.sh
 - Format the commit messages in the following way:
 
   ```
-  lib.(section): (init | add additional argument | refactor | etc)
+  (section): (init | add additional argument | refactor | etc)
 
   (Motivation for change. Additional information.)
   ```
 
   Examples:
 
-  * lib.getExe': check arguments
-  * lib.fileset: Add an additional argument in the design docs
-
-    Closes #264537
+  * getExe': check arguments
+  * fileset: Add an additional argument in the design docs
 
