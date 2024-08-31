@@ -37,7 +37,6 @@ let
     # constants
     licenses = callLibs ./licenses.nix;
     sourceTypes = callLibs ./source-types.nix;
-    systems = callLibs ./systems;
 
     # serialization
     cli = callLibs ./cli.nix;
@@ -57,9 +56,6 @@ let
     filesystem = callLibs ./filesystem.nix;
     fileset = callLibs ./fileset;
     sources = callLibs ./sources.nix;
-
-    # back-compat aliases
-    platforms = self.systems.doubles;
 
     # linux kernel configuration
     kernel = callLibs ./kernel.nix;
