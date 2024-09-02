@@ -5,6 +5,7 @@ of a poly-repo nixpkgs fork or for standalone use in a flake which doesn't need 
 
 Noteable exceptions from `nixpkgs/lib`:
 - `systems/` was removed as it included information about system platforms which are not relevant to nix utilities.
+- `maintainers` and `teams` were removed, as that's related to package maintainership
 - Contributing instructions no longer include usage of "lib.", as the repo now fixates on these functions.
 
 # Nixpkgs lib (original readme)
