@@ -61,6 +61,9 @@ let
     # network
     network = callLibs ./network;
 
+    # Package set
+    packagesets = callLibs ./packagesets.nix;
+
     # TODO: For consistency, all builtins should also be available from a sub-library;
     # these are the only ones that are currently not
     inherit (builtins) addErrorContext isPath trace typeOf unsafeGetAttrPos;
