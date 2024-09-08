@@ -24,9 +24,20 @@ rec {
     else
       mapAttrs
         (name: _: baseDirectory + "/${name}")
-        (readDir (baseDirectory + "/"));
+        (readDir (baseDirectory));
 
 
+  # This is expected to be passed a directory which contains subdirectories which
+  # correspond to packages.
+  # Example:
+  #   pkgs/
+  #     openssl/
+  #       default.nix
+  #     curl/
+  #       default.nix
+  # In this case, `pkgs/` would be the subdirectory, and openssl and curl
+  # would be added through the resulting overlay
+  #
   # Type: Path -> Overlay
   mkAutoCalledPackageDir = baseDirectory:
     let
