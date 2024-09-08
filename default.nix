@@ -62,7 +62,7 @@ let
     network = callLibs ./network;
 
     # Package set
-    packagesets = callLibs ./packagesets.nix;
+    packageSets = callLibs ./packagesets.nix;
 
     # TODO: For consistency, all builtins should also be available from a sub-library;
     # these are the only ones that are currently not
@@ -169,5 +169,7 @@ let
       nixType imap;
     inherit (self.versions)
       splitVersion;
+    inherit (self.packageSets)
+      mkAutoCalledPackageDir;
   });
 in lib

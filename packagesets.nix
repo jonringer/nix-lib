@@ -41,7 +41,7 @@ rec {
   # Type: Path -> Overlay
   mkAutoCalledPackageDir = baseDirectory:
     let
-      namesForShard = mkNamesForDirctory baseDirectory;
+      namesForShard = mkNamesForDirectory baseDirectory;
       # This is defined up here in order to allow reuse of the value (it's kind of expensive to compute)
       # if the overlay has to be applied multiple times
       packageFiles = mergeAttrsList (mapAttrsToList namesForShard (readDir baseDirectory));
