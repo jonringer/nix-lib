@@ -61,6 +61,9 @@ let
     # network
     network = callLibs ./network;
 
+    # Package set
+    packageSets = callLibs ./packagesets.nix;
+
     # TODO: For consistency, all builtins should also be available from a sub-library;
     # these are the only ones that are currently not
     inherit (builtins) addErrorContext isPath trace typeOf unsafeGetAttrPos;
@@ -166,5 +169,7 @@ let
       nixType imap;
     inherit (self.versions)
       splitVersion;
+    inherit (self.packageSets)
+      mkAutoCalledPackageDir;
   });
 in lib
