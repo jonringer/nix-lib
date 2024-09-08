@@ -7,6 +7,8 @@ Noteable exceptions from `nixpkgs/lib`:
 - `systems/` was removed as it included information about system platforms which are not relevant to nix utilities.
 - `maintainers` and `teams` were removed, as that's related to package maintainership
 - Contributing instructions no longer include usage of "lib.", as the repo now fixates on these functions.
+- Added `packageSets.mkAutoCalledPackageDir` lib, which enables the easy creation
+package sets from a directory
 
 # Nixpkgs lib (original readme)
 
