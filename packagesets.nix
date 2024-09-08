@@ -19,7 +19,7 @@ rec {
   # Type: Path -> _ -> String -> AttrsOf Path
   mkNamesForDirectory = baseDirectory: _: type:
     if type != "directory" then
-      # Ignore files, and only assume that directories will be imported by default
+    # Ignore files, and only assume that directories will be imported by default
       { }
     else
       mapAttrs
@@ -35,18 +35,18 @@ rec {
       # if the overlay has to be applied multiple times
       packageFiles = mergeAttrsList (mapAttrsToList namesForShard (readDir baseDirectory));
     in
-  # TODO: Consider optimising this using `builtins.deepSeq packageFiles`,
-  # which could free up the above thunks and reduce GC times.
-  # Currently this would be hard to measure until we have more packages
-  # and ideally https://github.com/NixOS/nix/pull/8895
-  self: super:
-  {
-    # Used to verify call by-name usage
-    _internalCallByNamePackageFile = file: self.callPackage file { };
-  }
-  // mapAttrs
-    (name: value: self._internalCallByNamePackageFile value)
-    packageFiles;
+    # TODO: Consider optimising this using `builtins.deepSeq packageFiles`,
+      # which could free up the above thunks and reduce GC times.
+      # Currently this would be hard to measure until we have more packages
+      # and ideally https://github.com/NixOS/nix/pull/8895
+    self: super:
+      {
+        # Used to verify call by-name usage
+        _internalCallByNamePackageFile = file: self.callPackage file { };
+      }
+      // mapAttrs
+        (name: value: self._internalCallByNamePackageFile value)
+        packageFiles;
 }
 
 
