@@ -9,6 +9,8 @@ Noteable exceptions from `nixpkgs/lib`:
 - Contributing instructions no longer include usage of "lib.", as the repo now fixates on these functions.
 - Added `packageSets.mkAutoCalledPackageDir` lib, which enables the easy creation
 package sets from a directory
+- `lib.trivial` no longer includes nixpkgs release related information
+
 
 # Nixpkgs lib (original readme)
 
