@@ -133,6 +133,11 @@ rec {
   mapDerivationAttrset = f: set: lib.mapAttrs (name: pkg: if lib.isDerivation pkg then (f pkg) else pkg) set;
 
   /**
+    The default priority of packages in Nix. See `defaultPriority` in [`src/nix/profile.cc`](https://github.com/NixOS/nix/blob/master/src/nix/profile.cc#L47).
+  */
+  defaultPriority = 5;
+
+  /**
     Set the nix-env priority of the package.
 
     # Inputs
