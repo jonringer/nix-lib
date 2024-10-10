@@ -209,7 +209,22 @@ rec {
     callPackageWith :: AttrSet -> ((AttrSet -> a) | Path) -> AttrSet -> a
     ```
   */
-  callPackageWith = autoArgs: fn: args:
+  callPackageWith = callGenericWith "lib.customisation.callPackageWith" makeOverridable;
+
+
+  /**
+    Very similar to callPackageWith, with the exception that it doesn't wrap the
+    package function in makeOverridable which adds `.override` and `.overrideDerivation`.
+    This is intended to be use when the calling function doesn't return a derivation.
+  */
+  scopeImportWith = callGenericWith "lib.customisation.scopeImportWith" lib.id;
+
+
+  /**
+    Not intended to be used directly. Instead use callPackageWith or scopeImportWith
+    dependening on whether you're importing packages or non-package expressions.
+  */
+  callGenericWith = funcName: continuation: autoArgs: fn: args:
     let
       f = if isFunction fn then fn else import fn;
       fargs = functionArgs f;
@@ -261,12 +276,12 @@ rec {
       error = errorForArg (head (attrNames missingArgs));
 
     in if missingArgs == {}
-       then makeOverridable f allArgs
+       then continuation f allArgs
        # This needs to be an abort so it can't be caught with `builtins.tryEval`,
        # which is used by nix-env and ofborg to filter out packages that don't evaluate.
        # This way we're forced to fix such errors in Nixpkgs,
        # which is especially relevant with allowAliases = false
-       else abort "lib.customisation.callPackageWith: ${error}";
+       else abort "${funcName}: ${error}";
 
 
   /**
@@ -443,6 +458,7 @@ rec {
     ```
     scope :: {
       callPackage :: ((AttrSet -> a) | Path) -> AttrSet -> a
+      scopeImport :: ((AttrSet -> a) | Path) -> AttrSet -> a
       newScope = AttrSet -> scope
       overrideScope = (scope -> scope -> AttrSet) -> scope
       packages :: AttrSet -> AttrSet
@@ -541,6 +557,7 @@ rec {
   makeScope = newScope: f:
     let self = f self // {
           newScope = scope: newScope (self // scope);
+          scopeImport = scopeImportWith self;
           callPackage = self.newScope {};
           overrideScope = g: makeScope newScope (extends g f);
           # Remove after 24.11 is released.
@@ -649,6 +666,7 @@ rec {
       spliced = extra spliced0 // spliced0 // keep self;
       self = f self // {
         newScope = scope: newScope (spliced // scope);
+        scopeImport = scopeImportWith spliced;
         callPackage = newScope spliced; # == self.newScope {};
         # N.B. the other stages of the package set spliced in are *not*
         # overridden.
